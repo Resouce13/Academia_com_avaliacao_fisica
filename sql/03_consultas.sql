@@ -197,12 +197,12 @@ FROM (
     ) AS pesos
     GROUP BY id_pessoa_aluno
 ) AS pu
-JOIN aluno a  ON a.id_pessoa = pu.id_pessoa_aluno
+JOIN aluno a ON a.id_pessoa = pu.id_pessoa_aluno
 JOIN pessoa p ON p.id_pessoa = a.id_pessoa
-WHERE pu.peso_inicial <> pu.peso_final
+WHERE pu.peso_inicial > pu.peso_final
+  AND pu.peso_inicial > 0
 ORDER BY reducao_percentual DESC
 LIMIT 1;
-
 
 -- Q15: Para cada aluno, com quantos profissionais diferentes ele
 -- já treinou (indício de troca de responsável -- RN18)?
