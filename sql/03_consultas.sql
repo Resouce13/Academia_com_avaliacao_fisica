@@ -203,6 +203,7 @@ WHERE pu.peso_inicial <> pu.peso_final
 ORDER BY reducao_percentual DESC
 LIMIT 1;
 
+
 -- Q15: Para cada aluno, com quantos profissionais diferentes ele
 -- já treinou (indício de troca de responsável -- RN18)?
 -- (subconsulta correlacionada na cláusula SELECT)
