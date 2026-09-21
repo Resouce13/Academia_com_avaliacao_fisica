@@ -318,8 +318,15 @@ CREATE TABLE treino (
 ) ENGINE = InnoDB;
 
 -- ============================================================
--- TABELA: PRESCRICAO
--- Regra relacionada: RN13 e RN17 e RN18
+-- TABELA ASSOCIATIVA: PRESCRICAO
+--
+-- Representa o relacionamento N:N entre PROFISSIONAL e TREINO.
+--
+-- Permite relacionar os profissionais responsáveis pelas
+-- prescrições dos treinos, mantendo o vínculo entre profissional
+-- e treino.
+--
+-- Regra relacionada: RN13, RN17 e RN18
 -- ============================================================
 
 CREATE TABLE prescricao (
