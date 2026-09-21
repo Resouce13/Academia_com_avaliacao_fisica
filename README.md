@@ -7,4 +7,4 @@ O projeto desenvolve um banco de dados para gerenciar uma academia, incluindo al
 Também permite registrar avaliações físicas e manter o histórico de medidas antropométricas dos alunos.
 O sistema organiza treinos, exercícios e suas respectivas configurações, além dos profissionais responsáveis.
 O modelo contempla especialização, relacionamentos N:N, autorrelacionamento e entidade fraca.
-A implementação utiliza MySQL, com regras de integridade, carga de dados e consultas para verificar o funcionamento.
+A implementação utiliza MySQL, com regras de integridade, carga de dados e consultas para verificar o funcionamento do banco de dados.
