@@ -317,6 +317,30 @@ CREATE TABLE treino (
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
+-- ============================================================
+-- TABELA: PRESCRICAO
+-- Regra relacionada: RN13 e RN17 e RN18
+-- ============================================================
+
+CREATE TABLE prescricao (
+    id_pessoa_profissional INT UNSIGNED NOT NULL,
+    id_treino INT UNSIGNED NOT NULL,
+
+    CONSTRAINT pk_prescricao
+        PRIMARY KEY (id_pessoa_profissional, id_treino),
+
+    CONSTRAINT fk_prescricao_profissional
+        FOREIGN KEY (id_pessoa_profissional)
+        REFERENCES profissional(id_pessoa)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+
+    CONSTRAINT fk_prescricao_treino
+        FOREIGN KEY (id_treino)
+        REFERENCES treino(id_treino)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
 
 -- ============================================================
 -- TABELA: EXERCICIO
