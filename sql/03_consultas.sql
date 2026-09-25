@@ -51,8 +51,9 @@ WHERE data_inicio BETWEEN '2026-01-01' AND '2026-12-31';
 SELECT
     id_contrato,
     id_pessoa_aluno,
-    situacao,
-    duracao_dias
+    data_inicio,
+    data_termino,
+    situacao
 FROM contrato
 WHERE situacao IN ('suspenso', 'cancelado');
 
@@ -78,10 +79,16 @@ SELECT
     pa.nome AS aluno,
     pp.nome AS profissional
 FROM treino t
-JOIN aluno a ON a.id_pessoa = t.id_pessoa_aluno
-JOIN pessoa pa ON pa.id_pessoa = a.id_pessoa
-JOIN profissional pr ON pr.id_pessoa = t.id_pessoa_profissional
-JOIN pessoa pp ON pp.id_pessoa = pr.id_pessoa
+JOIN aluno a
+    ON a.id_pessoa = t.id_pessoa_aluno
+JOIN pessoa pa
+    ON pa.id_pessoa = a.id_pessoa
+JOIN prescricao pc
+    ON pc.id_treino = t.id_treino
+JOIN profissional pr
+    ON pr.id_pessoa = pc.id_pessoa_profissional
+JOIN pessoa pp
+    ON pp.id_pessoa = pr.id_pessoa
 WHERE t.status_treino = 'ativo';
 
 -- Q7: Quem é o supervisor de cada profissional, incluindo os
@@ -211,12 +218,15 @@ SELECT
     p.nome,
     a.matricula,
     (
-        SELECT COUNT(DISTINCT t.id_pessoa_profissional)
+        SELECT COUNT(DISTINCT pc.id_pessoa_profissional)
         FROM treino t
+        JOIN prescricao pc
+            ON pc.id_treino = t.id_treino
         WHERE t.id_pessoa_aluno = a.id_pessoa
     ) AS qtd_profissionais_diferentes
 FROM aluno a
-JOIN pessoa p ON p.id_pessoa = a.id_pessoa;
+JOIN pessoa p
+    ON p.id_pessoa = a.id_pessoa;
 
 -- ============================================================
 -- FIM DAS CONSULTAS DE VERIFICAÇÃO
