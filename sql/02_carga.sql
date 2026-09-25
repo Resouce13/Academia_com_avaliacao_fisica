@@ -79,17 +79,17 @@ VALUES
 -- seguido de um contrato ativo -> RN04)
 -- ------------------------------------------------------------
 INSERT INTO contrato
-    (id_contrato, id_pessoa_aluno, id_plano, data_inicio, data_termino, situacao, duracao_dias)
+    (id_contrato, id_pessoa_aluno, id_plano, data_inicio, data_termino, situacao)
 VALUES
-    (1, 3, 1, '2025-03-01', '2025-03-31', 'encerrado', 30),
-    (2, 3, 3, '2025-04-01', '2026-04-01', 'ativo', 365),
-    -- [HISTÓRICO] mesmo aluno (id_pessoa_aluno = 3) com 2 contratos ao longo do tempo
-    (3, 4, 2, '2026-07-01', '2026-09-29', 'ativo', 90),
-    (4, 5, 1, '2024-05-01', '2024-05-31', 'cancelado', 30),
-    -- [CONTORNO] situação "cancelado" (fechada)
-    (5, 6, 2, '2026-06-15', '2026-09-13', 'suspenso', 90),
-    -- [CONTORNO] situação "suspenso" (em aberto)
-    (6, 7, 1, '2026-09-01', '2026-10-01', 'ativo', 30);
+    (1, 3, 1, '2025-03-01', '2025-03-31', 'encerrado'),
+    (2, 3, 3, '2025-04-01', '2026-04-01', 'ativo'),
+    -- [HISTÓRICO] mesmo aluno com 2 contratos ao longo do tempo
+    (3, 4, 2, '2026-07-01', '2026-09-29', 'ativo'),
+    (4, 5, 1, '2024-05-01', '2024-05-31', 'cancelado'),
+    -- [CONTORNO] situação cancelada
+    (5, 6, 2, '2026-06-15', '2026-09-13', 'suspenso'),
+    -- [CONTORNO] situação suspensa
+    (6, 7, 1, '2026-09-01', '2026-10-01', 'ativo');
 
 -- ------------------------------------------------------------
 -- AVALIACAO_FISICA (João Pedro possui 3 avaliações ao longo do
@@ -136,36 +136,77 @@ VALUES
     -- [CONTORNO] avaliação 5 não possui medida de 'braco'
 
 -- ------------------------------------------------------------
--- TREINO (João Pedro tem um treino substituído e um novo,
--- inclusive com troca do profissional responsável -> RN17/RN18)
+-- TREINO
+-- Um treino pertence a um aluno.
+-- O vínculo com o profissional responsável é representado
+-- pela tabela associativa PRESCRICAO.
+--
+-- Regra relacionada: RN12, RN13, RN17 e RN18
 -- ------------------------------------------------------------
-INSERT INTO treino
-    (id_treino, id_pessoa_aluno, id_pessoa_profissional, data_prescricao, nome_treino, status_treino)
-VALUES
-    (1, 3, 1, '2025-03-06', 'Treino Full Body - Iniciante', 'substituido'),
-    (2, 3, 2, '2025-09-12', 'Treino ABC - Hipertrofia', 'ativo'),
-    -- [HISTÓRICO] treino 1 (Carlos) substituído pelo treino 2 (Beatriz) para o mesmo aluno
-    (3, 4, 1, '2026-07-06', 'Treino Funcional - Emagrecimento', 'ativo'),
-    (4, 6, 1, '2026-06-21', 'Treino de Mobilidade', 'ativo'),
-    (5, 7, 2, '2026-09-02', 'Treino Iniciante - Adaptação', 'ativo');
 
-	INSERT INTO treino
-    (id_treino, id_pessoa_aluno, id_pessoa_profissional,
-     data_prescricao, nome_treino, status_treino)
+INSERT INTO treino
+    (id_treino, id_pessoa_aluno, data_prescricao, nome_treino, status_treino)
 VALUES
-    (6, 3, 1, '2026-04-10', 'Treino A - Força', 'ativo'),
-    (7, 4, 2, '2026-07-15', 'Treino B - Hipertrofia', 'ativo'),
-    (8, 6, 1, '2026-07-01', 'Treino C - Condicionamento', 'ativo'),
-    (9, 7, 2, '2026-09-05', 'Treino A - Adaptação', 'ativo'),
-    (10, 3, 2, '2026-05-10', 'Treino B - Hipertrofia', 'ativo'),
-    (11, 4, 1, '2026-08-01', 'Treino A - Resistência', 'ativo'),
-    (12, 6, 1, '2026-08-15', 'Treino B - Força', 'ativo'),
-    (13, 7, 2, '2026-09-10', 'Treino B - Adaptação', 'ativo'),
-    (14, 3, 1, '2026-06-15', 'Treino C - Pernas', 'ativo'),
-    (15, 4, 2, '2026-08-20', 'Treino C - Completo', 'ativo'),
-    (16, 6, 1, '2026-09-01', 'Treino D - Mobilidade', 'ativo'),
-    (17, 7, 2, '2026-09-12', 'Treino C - Iniciante', 'ativo'),
-    (18, 3, 1, '2026-09-15', 'Treino D - Hipertrofia', 'ativo');
+    (1, 3, '2025-03-06', 'Treino Full Body - Iniciante', 'substituido'),
+    (2, 3, '2025-09-12', 'Treino ABC - Hipertrofia', 'ativo'),
+    -- [HISTÓRICO] treino 1 substituído pelo treino 2 para o mesmo aluno
+    (3, 4, '2026-07-06', 'Treino Funcional - Emagrecimento', 'ativo'),
+    (4, 6, '2026-06-21', 'Treino de Mobilidade', 'ativo'),
+    (5, 7, '2026-09-02', 'Treino Iniciante - Adaptação', 'ativo'),
+
+    (6, 3, '2026-04-10', 'Treino A - Força', 'ativo'),
+    (7, 4, '2026-07-15', 'Treino B - Hipertrofia', 'ativo'),
+    (8, 6, '2026-07-01', 'Treino C - Condicionamento', 'ativo'),
+    (9, 7, '2026-09-05', 'Treino A - Adaptação', 'ativo'),
+    (10, 3, '2026-05-10', 'Treino B - Hipertrofia', 'ativo'),
+    (11, 4, '2026-08-01', 'Treino A - Resistência', 'ativo'),
+    (12, 6, '2026-08-15', 'Treino B - Força', 'ativo'),
+    (13, 7, '2026-09-10', 'Treino B - Adaptação', 'ativo'),
+    (14, 3, '2026-06-15', 'Treino C - Pernas', 'ativo'),
+    (15, 4, '2026-08-20', 'Treino C - Completo', 'ativo'),
+    (16, 6, '2026-09-01', 'Treino D - Mobilidade', 'ativo'),
+    (17, 7, '2026-09-12', 'Treino C - Iniciante', 'ativo'),
+    (18, 3, '2026-09-15', 'Treino D - Hipertrofia', 'ativo');
+
+-- ------------------------------------------------------------
+-- PRESCRICAO
+-- Relacionamento N:N entre PROFISSIONAL e TREINO.
+--
+-- Regra relacionada: RN13, RN17 e RN18
+-- ------------------------------------------------------------
+
+INSERT INTO prescricao
+    (id_pessoa_profissional, id_treino)
+VALUES
+    -- Treino 1: Carlos
+    (1, 1),
+
+    -- Treino 2: Beatriz
+    (2, 2),
+
+    -- Treino 3: Carlos
+    (1, 3),
+
+    -- Treino 4: Carlos
+    (1, 4),
+
+    -- Treino 5: Beatriz
+    (2, 5),
+
+    -- Treinos adicionais
+    (1, 6),
+    (2, 7),
+    (1, 8),
+    (2, 9),
+    (2, 10),
+    (1, 11),
+    (1, 12),
+    (2, 13),
+    (1, 14),
+    (2, 15),
+    (1, 16),
+    (2, 17),
+    (1, 18);
 
 -- ------------------------------------------------------------
 -- EXERCICIO
