@@ -174,7 +174,7 @@ CREATE TABLE contrato (
     ) NOT NULL,
 
     CONSTRAINT ck_contrato_datas
-    CHECK (data_termino >= data_inicio)
+    CHECK (data_termino >= data_inicio),
 
     CONSTRAINT pk_contrato
         PRIMARY KEY (id_contrato),
@@ -189,13 +189,7 @@ CREATE TABLE contrato (
         FOREIGN KEY (id_plano)
         REFERENCES plano(id_plano)
         ON DELETE RESTRICT
-        ON UPDATE CASCADE,
-
-    CONSTRAINT ck_contrato_datas
-        CHECK (data_termino >= data_inicio),
-
-    CONSTRAINT ck_contrato_duracao
-        CHECK (duracao_dias > 0)
+        ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
 
