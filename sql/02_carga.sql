@@ -144,29 +144,28 @@ VALUES
 -- Regra relacionada: RN12, RN13, RN17 e RN18
 -- ------------------------------------------------------------
 
-INSERT INTO treino
-    (id_treino, id_pessoa_aluno, data_prescricao, nome_treino, status_treino)
-VALUES
-    (1, 3, '2025-03-06', 'Treino Full Body - Iniciante', 'substituido'),
-    (2, 3, '2025-09-12', 'Treino ABC - Hipertrofia', 'ativo'),
-    -- [HISTÓRICO] treino 1 substituído pelo treino 2 para o mesmo aluno
-    (3, 4, '2026-07-06', 'Treino Funcional - Emagrecimento', 'ativo'),
-    (4, 6, '2026-06-21', 'Treino de Mobilidade', 'ativo'),
-    (5, 7, '2026-09-02', 'Treino Iniciante - Adaptação', 'ativo'),
 
-    (6, 3, '2026-04-10', 'Treino A - Força', 'ativo'),
-    (7, 4, '2026-07-15', 'Treino B - Hipertrofia', 'ativo'),
-    (8, 6, '2026-07-01', 'Treino C - Condicionamento', 'ativo'),
-    (9, 7, '2026-09-05', 'Treino A - Adaptação', 'ativo'),
-    (10, 3, '2026-05-10', 'Treino B - Hipertrofia', 'ativo'),
-    (11, 4, '2026-08-01', 'Treino A - Resistência', 'ativo'),
-    (12, 6, '2026-08-15', 'Treino B - Força', 'ativo'),
-    (13, 7, '2026-09-10', 'Treino B - Adaptação', 'ativo'),
-    (14, 3, '2026-06-15', 'Treino C - Pernas', 'ativo'),
-    (15, 4, '2026-08-20', 'Treino C - Completo', 'ativo'),
-    (16, 6, '2026-09-01', 'Treino D - Mobilidade', 'ativo'),
-    (17, 7, '2026-09-12', 'Treino C - Iniciante', 'ativo'),
-    (18, 3, '2026-09-15', 'Treino D - Hipertrofia', 'ativo');
+INSERT INTO treino
+    (id_treino, id_pessoa_aluno, nome_treino, status_treino)
+VALUES
+    (1, 3, 'Treino Full Body - Iniciante', 'substituido'),
+    (2, 3, 'Treino ABC - Hipertrofia', 'ativo'),
+    (3, 4, 'Treino Funcional - Emagrecimento', 'ativo'),
+    (4, 6, 'Treino de Mobilidade', 'ativo'),
+    (5, 7, 'Treino Iniciante - Adaptação', 'ativo'),
+    (6, 3, 'Treino A - Força', 'ativo'),
+    (7, 4, 'Treino B - Hipertrofia', 'ativo'),
+    (8, 6, 'Treino C - Condicionamento', 'ativo'),
+    (9, 7, 'Treino A - Adaptação', 'ativo'),
+    (10, 3, 'Treino B - Hipertrofia', 'ativo'),
+    (11, 4, 'Treino A - Resistência', 'ativo'),
+    (12, 6, 'Treino B - Força', 'ativo'),
+    (13, 7, 'Treino B - Adaptação', 'ativo'),
+    (14, 3, 'Treino C - Pernas', 'ativo'),
+    (15, 4, 'Treino C - Completo', 'ativo'),
+    (16, 6, 'Treino D - Mobilidade', 'ativo'),
+    (17, 7, 'Treino C - Iniciante', 'ativo'),
+    (18, 3, 'Treino D - Hipertrofia', 'ativo');
 
 -- ------------------------------------------------------------
 -- PRESCRICAO
@@ -175,38 +174,29 @@ VALUES
 -- Regra relacionada: RN13, RN17 e RN18
 -- ------------------------------------------------------------
 
+
 INSERT INTO prescricao
-    (id_pessoa_profissional, id_treino)
+    (id_pessoa_profissional, id_treino, data_prescricao, observacoes)
 VALUES
-    -- Treino 1: Carlos
-    (1, 1),
+    (1, 1, '2025-03-06', 'Treino inicial para adaptação'),
+    (2, 2, '2025-09-12', 'Treino ABC para hipertrofia'),
+    (1, 3, '2026-07-06', 'Treino funcional para emagrecimento'),
+    (1, 4, '2026-06-21', 'Treino focado em mobilidade'),
+    (2, 5, '2026-09-02', 'Treino inicial de adaptação'),
+    (1, 6, '2026-04-10', 'Treino A focado em força'),
+    (2, 7, '2026-07-15', 'Treino B para hipertrofia'),
+    (1, 8, '2026-07-01', 'Treino de condicionamento'),
+    (2, 9, '2026-09-05', 'Treino A de adaptação'),
+    (2, 10, '2026-05-10', 'Treino B para hipertrofia'),
+    (1, 11, '2026-08-01', 'Treino A de resistência'),
+    (1, 12, '2026-08-15', 'Treino B focado em força'),
+    (2, 13, '2026-09-10', 'Treino B de adaptação'),
+    (1, 14, '2026-06-15', 'Treino C focado em pernas'),
+    (2, 15, '2026-08-20', 'Treino C completo'),
+    (1, 16, '2026-09-01', 'Treino D de mobilidade'),
+    (2, 17, '2026-09-12', 'Treino C para iniciantes'),
+    (1, 18, '2026-09-15', 'Treino D para hipertrofia');
 
-    -- Treino 2: Beatriz
-    (2, 2),
-
-    -- Treino 3: Carlos
-    (1, 3),
-
-    -- Treino 4: Carlos
-    (1, 4),
-
-    -- Treino 5: Beatriz
-    (2, 5),
-
-    -- Treinos adicionais
-    (1, 6),
-    (2, 7),
-    (1, 8),
-    (2, 9),
-    (2, 10),
-    (1, 11),
-    (1, 12),
-    (2, 13),
-    (1, 14),
-    (2, 15),
-    (1, 16),
-    (2, 17),
-    (1, 18);
 
 -- ------------------------------------------------------------
 -- EXERCICIO
