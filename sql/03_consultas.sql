@@ -71,13 +71,14 @@ WHERE telefone IS NULL
 -- BLOCO 2 - JUNÇÕES E AGREGAÇÃO
 -- ============================================================
 
--- Q6: Quais treinos ativos existem, com o nome do aluno e do
--- profissional responsável pela prescrição?
--- (junção com três ou mais tabelas)
+
+-- Q6: Quais treinos ativos existem, com o nome do aluno,
+-- profissional responsável e data da prescrição?
 SELECT
     t.nome_treino,
     pa.nome AS aluno,
-    pp.nome AS profissional
+    pp.nome AS profissional,
+    pc.data_prescricao
 FROM treino t
 JOIN aluno a
     ON a.id_pessoa = t.id_pessoa_aluno
@@ -89,7 +90,8 @@ JOIN profissional pr
     ON pr.id_pessoa = pc.id_pessoa_profissional
 JOIN pessoa pp
     ON pp.id_pessoa = pr.id_pessoa
-WHERE t.status_treino = 'ativo';
+WHERE t.status_treino = 'ativo'
+ORDER BY pa.nome, pc.data_prescricao;
 
 -- Q7: Quem é o supervisor de cada profissional, incluindo os
 -- profissionais que não possuem supervisor cadastrado?
@@ -180,34 +182,51 @@ WHERE NOT EXISTS (
     WHERE af.id_pessoa_aluno = a.id_pessoa
 );
 
--- Q14: Qual aluno teve a maior redução percentual de peso entre a
--- primeira e a última avaliação física registrada?
-SELECT
-    p.nome,
-    pu.peso_inicial,
-    pu.peso_final,
-    ROUND((pu.peso_inicial - pu.peso_final) / pu.peso_inicial * 100, 2) AS reducao_percentual
-FROM (
+
+-- Q14: Qual aluno teve a maior redução percentual de peso
+-- entre a primeira e a última avaliação com peso registrado?
+WITH pesos_ordenados AS (
+    SELECT
+        af.id_pessoa_aluno,
+        af.id_avaliacao,
+        af.data_avaliacao,
+        m.valor_medida AS peso,
+        ROW_NUMBER() OVER (
+            PARTITION BY af.id_pessoa_aluno
+            ORDER BY af.data_avaliacao, af.id_avaliacao
+        ) AS ordem_inicial,
+        ROW_NUMBER() OVER (
+            PARTITION BY af.id_pessoa_aluno
+            ORDER BY af.data_avaliacao DESC, af.id_avaliacao DESC
+        ) AS ordem_final
+    FROM avaliacao_fisica af
+    JOIN medida m
+        ON m.id_avaliacao = af.id_avaliacao
+    WHERE m.tipo_medida = 'peso'
+),
+resumo AS (
     SELECT
         id_pessoa_aluno,
         MAX(CASE WHEN ordem_inicial = 1 THEN peso END) AS peso_inicial,
-        MAX(CASE WHEN ordem_final   = 1 THEN peso END) AS peso_final
-    FROM (
-        SELECT
-            af.id_pessoa_aluno,
-            m.valor_medida AS peso,
-            ROW_NUMBER() OVER (PARTITION BY af.id_pessoa_aluno ORDER BY af.data_avaliacao ASC)  AS ordem_inicial,
-            ROW_NUMBER() OVER (PARTITION BY af.id_pessoa_aluno ORDER BY af.data_avaliacao DESC) AS ordem_final
-        FROM medida m
-        JOIN avaliacao_fisica af ON af.id_avaliacao = m.id_avaliacao
-        WHERE m.tipo_medida = 'peso'
-    ) AS pesos
+        MAX(CASE WHEN ordem_final = 1 THEN peso END) AS peso_final
+    FROM pesos_ordenados
     GROUP BY id_pessoa_aluno
-) AS pu
-JOIN aluno a ON a.id_pessoa = pu.id_pessoa_aluno
-JOIN pessoa p ON p.id_pessoa = a.id_pessoa
-WHERE pu.peso_inicial > pu.peso_final
-  AND pu.peso_inicial > 0
+)
+SELECT
+    p.nome,
+    r.peso_inicial,
+    r.peso_final,
+    ROUND(
+        (r.peso_inicial - r.peso_final) / r.peso_inicial * 100,
+        2
+    ) AS reducao_percentual
+FROM resumo r
+JOIN aluno a
+    ON a.id_pessoa = r.id_pessoa_aluno
+JOIN pessoa p
+    ON p.id_pessoa = a.id_pessoa
+WHERE r.peso_inicial > r.peso_final
+  AND r.peso_inicial > 0
 ORDER BY reducao_percentual DESC
 LIMIT 1;
 
