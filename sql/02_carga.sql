@@ -361,3 +361,115 @@ VALUES
 -- ============================================================
 -- FIM DA CARGA DE DADOS
 -- ============================================================
+
+
+-- ------------------------------------------------------------
+-- PESSOA (carga complementar: pessoas 8 a 17)
+-- ------------------------------------------------------------
+INSERT INTO pessoa
+    (id_pessoa, nome, cpf, data_nascimento, telefone, email,
+     rua, numero, bairro, cidade, uf, cep)
+VALUES
+    (8, 'Lucas Henrique Carvalho', '81020030041', '2000-02-14', '61987001008', 'lucas.carvalho@gmail.com',
+        'Rua das Flores', '18', 'Asa Norte', 'Brasília', 'DF', '70040010'),
+    (9, 'Amanda Ribeiro Santos', '82030040051', '1998-06-22', '61987001009', 'amanda.ribeiro@gmail.com',
+        'Rua Central', '29', 'Guará', 'Brasília', 'DF', '71010020'),
+    (10, 'Pedro Augusto Ferreira', '83040050061', '1995-09-17', '61987001010', 'pedro.ferreira@gmail.com',
+        'Avenida Brasil', '35', 'Taguatinga', 'Brasília', 'DF', '72020030'),
+    (11, 'Juliana Mendes Oliveira', '84050060071', '2002-01-11', '61987001011', 'juliana.mendes@gmail.com',
+        'Rua do Sol', '42', 'Ceilândia', 'Brasília', 'DF', '72230040'),
+    (12, 'Matheus Gomes Pereira', '85060070081', '1997-12-05', '61987001012', 'matheus.gomes@gmail.com',
+        'Rua das Palmeiras', '51', 'Gama', 'Brasília', 'DF', '72410050'),
+    (13, 'Camila Rodrigues Alves', '86070080091', '2001-03-19', '61987001013', 'camila.alves@gmail.com',
+        'Quadra 10', '63', 'Sobradinho', 'Brasília', 'DF', '73030060'),
+    (14, 'Bruno Martins Costa', '87080090011', '1994-08-27', '61987001014', 'bruno.costa@gmail.com',
+        'Rua das Acácias', '74', 'Guará', 'Brasília', 'DF', '71030070'),
+    (15, 'Larissa Almeida Rocha', '88090010021', '1999-04-08', '61987001015', 'larissa.rocha@gmail.com',
+        'Rua Nova', '85', 'Asa Sul', 'Brasília', 'DF', '70210080'),
+    (16, 'Felipe Barros Nascimento', '89100020031', '1996-10-13', '61987001016', 'felipe.barros@gmail.com',
+        'Avenida Central', '96', 'Planaltina', 'Brasília', 'DF', '73310090'),
+    (17, 'Isabela Freitas Lima', '90110030041', '2003-07-24', '61987001017', 'isabela.freitas@gmail.com',
+        'Rua do Parque', '107', 'Núcleo Bandeirante', 'Brasília', 'DF', '71720010');
+
+
+-- ------------------------------------------------------------
+-- ALUNO (carga complementar: alunos 8 a 17)
+-- ------------------------------------------------------------
+INSERT INTO aluno (id_pessoa, matricula, status_matricula)
+VALUES
+    (8, '2026ALU0008', 'ativa'),
+    (9, '2026ALU0009', 'ativa'),
+    (10, '2026ALU0010', 'ativa'),
+    (11, '2026ALU0011', 'ativa'),
+    (12, '2026ALU0012', 'ativa'),
+    (13, '2026ALU0013', 'ativa'),
+    (14, '2026ALU0014', 'ativa'),
+    (15, '2026ALU0015', 'ativa'),
+    (16, '2026ALU0016', 'ativa'),
+    (17, '2026ALU0017', 'ativa');
+
+
+-- ------------------------------------------------------------
+-- CONTRATO (carga complementar: contratos 7 a 16)
+-- ------------------------------------------------------------
+INSERT INTO contrato
+    (id_contrato, id_pessoa_aluno, id_plano,
+     data_inicio, data_termino, situacao)
+VALUES
+    (7, 8, 1, '2026-01-10', '2026-02-10', 'encerrado'),
+    (8, 9, 2, '2026-02-01', '2026-05-01', 'encerrado'),
+    (9, 10, 3, '2026-03-01', '2027-03-01', 'ativo'),
+    (10, 11, 1, '2026-04-05', '2026-05-05', 'encerrado'),
+    (11, 12, 2, '2026-05-10', '2026-08-10', 'encerrado'),
+    (12, 13, 3, '2026-06-01', '2027-06-01', 'ativo'),
+    (13, 14, 1, '2026-07-15', '2026-08-15', 'encerrado'),
+    (14, 15, 2, '2026-08-01', '2026-11-01', 'ativo'),
+    (15, 16, 3, '2026-09-01', '2027-09-01', 'ativo'),
+    (16, 17, 1, '2026-10-01', '2026-10-31', 'ativo');
+
+
+-- ------------------------------------------------------------
+-- AVALIACAO_FISICA (carga complementar: avaliações 6 a 15)
+-- ------------------------------------------------------------
+INSERT INTO avaliacao_fisica
+    (id_avaliacao, id_pessoa_aluno, data_avaliacao, observacoes)
+VALUES
+    (6, 8, '2026-01-12', 'Avaliação inicial do aluno.'),
+    (7, 9, '2026-02-03', 'Avaliação inicial do aluno.'),
+    (8, 10, '2026-03-04', 'Avaliação inicial do aluno.'),
+    (9, 11, '2026-04-07', 'Avaliação inicial do aluno.'),
+    (10, 12, '2026-05-12', 'Avaliação inicial do aluno.'),
+    (11, 13, '2026-06-03', 'Avaliação inicial do aluno.'),
+    (12, 14, '2026-07-17', 'Avaliação inicial do aluno.'),
+    (13, 15, '2026-08-04', 'Avaliação inicial do aluno.'),
+    (14, 16, '2026-09-03', 'Avaliação inicial do aluno.'),
+    (15, 17, '2026-10-03', 'Avaliação inicial do aluno.');
+
+
+-- ------------------------------------------------------------
+-- MEDIDA (carga complementar: medidas das avaliações 6 a 15)
+-- ------------------------------------------------------------
+INSERT INTO medida
+    (id_avaliacao, tipo_medida, valor_medida, unidade)
+VALUES
+    (6, 'peso', 76.50, 'kg'),
+    (6, 'altura', 1.75, 'm'),
+    (7, 'peso', 62.00, 'kg'),
+    (7, 'altura', 1.63, 'm'),
+    (8, 'peso', 88.00, 'kg'),
+    (8, 'altura', 1.82, 'm'),
+    (9, 'peso', 57.50, 'kg'),
+    (9, 'altura', 1.60, 'm'),
+    (10, 'peso', 80.00, 'kg'),
+    (10, 'altura', 1.78, 'm'),
+    (11, 'peso', 69.50, 'kg'),
+    (11, 'altura', 1.67, 'm'),
+    (12, 'peso', 91.00, 'kg'),
+    (12, 'altura', 1.85, 'm'),
+    (13, 'peso', 64.00, 'kg'),
+    (13, 'altura', 1.65, 'm'),
+    (14, 'peso', 73.00, 'kg'),
+    (14, 'altura', 1.74, 'm'),
+    (15, 'peso', 59.00, 'kg'),
+    (15, 'altura', 1.61, 'm');
+
