@@ -284,9 +284,7 @@ CREATE TABLE medida (
 CREATE TABLE treino (
     id_treino INT UNSIGNED NOT NULL AUTO_INCREMENT,
     id_pessoa_aluno INT UNSIGNED NOT NULL,
-    id_profissional INT UNSIGNED NOT NULL,
 
-    data_prescricao DATE NOT NULL,
     nome_treino VARCHAR(100) NOT NULL,
 
     status_treino ENUM(
@@ -304,12 +302,8 @@ CREATE TABLE treino (
         ON DELETE RESTRICT
         ON UPDATE CASCADE,
 
-    CONSTRAINT fk_treino_profissional
-        FOREIGN KEY (id_profissional)
-        REFERENCES profissional(id_pessoa)
-        ON DELETE RESTRICT
-        ON UPDATE CASCADE
-
+    INDEX idx_treino_aluno_status
+        (id_pessoa_aluno, status_treino)
 ) ENGINE = InnoDB;
 
 -- ============================================================
@@ -328,6 +322,9 @@ CREATE TABLE prescricao (
     id_pessoa_profissional INT UNSIGNED NOT NULL,
     id_treino INT UNSIGNED NOT NULL,
 
+    data_prescricao DATE NOT NULL,
+    observacoes TEXT NULL,
+
     CONSTRAINT pk_prescricao
         PRIMARY KEY (id_pessoa_profissional, id_treino),
 
@@ -341,8 +338,11 @@ CREATE TABLE prescricao (
         FOREIGN KEY (id_treino)
         REFERENCES treino(id_treino)
         ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
+        ON UPDATE CASCADE,
+
+    INDEX idx_prescricao_treino
+        (id_treino)
+) ENGINE = InnoDB;
 
 -- ============================================================
 -- TABELA: EXERCICIO
