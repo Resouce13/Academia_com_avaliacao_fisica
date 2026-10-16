@@ -89,7 +89,8 @@ CREATE TABLE aluno (
         FOREIGN KEY (id_pessoa)
         REFERENCES pessoa(id_pessoa)
         ON DELETE CASCADE
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE,
+    INDEX idx_aluno_status (status_matricula)
 ) ENGINE = InnoDB;
 
 
@@ -189,7 +190,9 @@ CREATE TABLE contrato (
         FOREIGN KEY (id_plano)
         REFERENCES plano(id_plano)
         ON DELETE RESTRICT
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE,
+    INDEX idx_contrato_aluno_datas
+        (id_pessoa_aluno, data_inicio, data_termino)
 ) ENGINE = InnoDB;
 
 
@@ -213,7 +216,9 @@ CREATE TABLE avaliacao_fisica (
         FOREIGN KEY (id_pessoa_aluno)
         REFERENCES aluno(id_pessoa)
         ON DELETE RESTRICT
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE,
+    INDEX idx_avaliacao_aluno_data
+        (id_pessoa_aluno, data_avaliacao)
 ) ENGINE = InnoDB;
 
 
@@ -359,7 +364,8 @@ CREATE TABLE exercicio (
         PRIMARY KEY (id_exercicio),
 
     CONSTRAINT uq_exercicio_nome
-        UNIQUE (nome_exercicio)
+        UNIQUE (nome_exercicio),
+    INDEX idx_exercicio_grupo (grupo_muscular)
 ) ENGINE = InnoDB;
 
 
@@ -426,7 +432,8 @@ CREATE TABLE treino_exercicio (
 
     -- Não permite duas posições iguais dentro do mesmo treino.
     CONSTRAINT uq_treino_exercicio_ordem
-        UNIQUE (id_treino, ordem_execucao)
+        UNIQUE (id_treino, ordem_execucao),
+    INDEX idx_treino_exercicio_exercicio (id_exercicio)
 ) ENGINE = InnoDB;
 
 
