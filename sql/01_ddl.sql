@@ -2,7 +2,7 @@
 -- PROJETO: Academia com avaliação física
 -- DISCIPLINA: Laboratório de Banco de Dados
 -- ETAPA 1 - A6: DDL
--- SGBD: MySQL 8.0+
+-- SGBD: MySQL 8.0.16+
 -- ============================================================
 
 -- ------------------------------------------------------------
@@ -125,7 +125,8 @@ CREATE TABLE profissional (
         FOREIGN KEY (id_supervisor)
         REFERENCES profissional(id_pessoa)
         ON DELETE RESTRICT
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE,
+    INDEX idx_profissional_supervisor (id_supervisor)
 ) ENGINE = InnoDB;
 
 
@@ -193,6 +194,8 @@ CREATE TABLE contrato (
         ON UPDATE CASCADE,
     INDEX idx_contrato_aluno_datas
         (id_pessoa_aluno, data_inicio, data_termino)
+    INDEX idx_contrato_data_inicio (data_inicio),
+    INDEX idx_contrato_situacao (situacao)
 ) ENGINE = InnoDB;
 
 
@@ -280,8 +283,9 @@ CREATE TABLE medida (
 
 -- ============================================================
 -- TABELA: TREINO
--- Um treino pertence a um aluno e possui um profissional
--- responsável pela prescrição.
+-- Um treino pertence a um aluno.
+-- O vínculo com um ou mais profissionais responsáveis
+-- é representado pela tabela associativa PRESCRICAO.
 --
 -- Regra relacionada: RN12, RN13, RN17 e RN18
 -- ============================================================
