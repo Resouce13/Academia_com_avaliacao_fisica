@@ -284,6 +284,7 @@ CREATE TABLE medida (
 CREATE TABLE treino (
     id_treino INT UNSIGNED NOT NULL AUTO_INCREMENT,
     id_pessoa_aluno INT UNSIGNED NOT NULL,
+    id_profissional INT UNSIGNED NOT NULL,
 
     data_prescricao DATE NOT NULL,
     nome_treino VARCHAR(100) NOT NULL,
@@ -301,7 +302,14 @@ CREATE TABLE treino (
         FOREIGN KEY (id_pessoa_aluno)
         REFERENCES aluno(id_pessoa)
         ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+
+    CONSTRAINT fk_treino_profissional
+        FOREIGN KEY (id_profissional)
+        REFERENCES profissional(id_pessoa)
+        ON DELETE RESTRICT
         ON UPDATE CASCADE
+
 ) ENGINE = InnoDB;
 
 -- ============================================================
