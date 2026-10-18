@@ -193,7 +193,7 @@ CREATE TABLE contrato (
         ON DELETE RESTRICT
         ON UPDATE CASCADE,
     INDEX idx_contrato_aluno_datas
-        (id_pessoa_aluno, data_inicio, data_termino)
+        (id_pessoa_aluno, data_inicio, data_termino),
     INDEX idx_contrato_data_inicio (data_inicio),
     INDEX idx_contrato_situacao (situacao)
 ) ENGINE = InnoDB;
