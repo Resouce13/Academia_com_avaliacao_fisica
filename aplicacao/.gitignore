@@ -1,0 +1,8 @@
+# Credenciais reais (nunca versionar)
+config.properties
+
+# Artefatos de build do NetBeans
+build/
+dist/
+nbproject/private/
+*.class
