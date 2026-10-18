@@ -1,0 +1,5 @@
+# Copie para config.properties (na raiz do projeto) e preencha.
+# config.properties NÃO deve ser versionado (está no .gitignore).
+db.url=jdbc:mysql://localhost:3306/academia_avaliacao
+db.usuario=academia_app
+db.senha=TROQUE_PELA_SENHA
